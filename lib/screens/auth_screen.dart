@@ -40,10 +40,11 @@ class _AuthScreenState extends State<AuthScreen> {
         final reference = FirebaseStorage.instance
             .ref()
             .child("chat_app")
-            .child(_authResult.user.uid)
+            .child(_authResult.user.uid.toString())
+            .child("_display_photo")
             .child('dp.jpg');
-        final url = await reference.getDownloadURL();
         await reference.putFile(_image).onComplete;
+        final url = await reference.getDownloadURL();
         await Firestore.instance
             .collection('users')
             .document(_authResult.user.uid)
@@ -61,9 +62,10 @@ class _AuthScreenState extends State<AuthScreen> {
           backgroundColor: Theme.of(context).errorColor,
         ),
       );
+      setState(() {
+        _isLoading = false;
+      });
     } catch (err) {
-      print(err);
-    } finally {
       setState(() {
         _isLoading = false;
       });

@@ -37,6 +37,8 @@ class _AuthFormState extends State<AuthForm> {
               children: [
                 if (!_isLogIn) UserImagePicker(setImage),
                 TextFormField(
+                  textCapitalization: TextCapitalization.none,
+                  autocorrect: false,
                   key: ValueKey("email"),
                   validator: (value) {
                     if (value.isEmpty || !_isEmail(value)) {
